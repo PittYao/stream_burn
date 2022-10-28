@@ -21,3 +21,14 @@ type BurnMix3VideoDTO struct {
 	FileSavePath  string `json:"fileSavePath"`
 	VideoName     string `json:"videoName"`
 }
+
+type BurnSingleVideoDTO struct {
+	RtspUrl      string `json:"rtspUrl" binding:"required" example:"rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0"`
+	StartTime    string `json:"startTime" binding:"required" example:"2022-05-11 15:20:00"`
+	EndTime      string `json:"endTime" binding:"required" example:"2022-05-11 15:25:00" `
+	CallbackUrl  string `json:"callBackUrl" example:"http://localhost:8010/api/v1/callback"`
+	OdaSavePath  string `json:"odaSavePath" example:"D:/downloadVideo"`
+	TaskId       uint   `json:"taskId" example:"1"`
+	FileSavePath string `json:"fileSavePath"`
+	VideoName    string `json:"videoName"`
+}

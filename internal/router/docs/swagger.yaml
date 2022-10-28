@@ -58,6 +58,35 @@ definitions:
     - odaSavePath
     - taskNum
     type: object
+  dto.BurnSingleVideoDTO:
+    properties:
+      callBackUrl:
+        example: http://localhost:8010/api/v1/callback
+        type: string
+      endTime:
+        example: "2022-05-11 15:25:00"
+        type: string
+      fileSavePath:
+        type: string
+      odaSavePath:
+        example: D:/downloadVideo
+        type: string
+      rtspUrl:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+      startTime:
+        example: "2022-05-11 15:20:00"
+        type: string
+      taskId:
+        example: 1
+        type: integer
+      videoName:
+        type: string
+    required:
+    - endTime
+    - rtspUrl
+    - startTime
+    type: object
   response.Response:
     properties:
       code:
@@ -93,6 +122,27 @@ paths:
       summary: 下载三合一画面
       tags:
       - 三合一
+  /api/v1/burnSingleVideo:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: burnSingleVideoDTO
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnSingleVideoDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 下载房间单画面
+      tags:
+      - 房间单画面
   /api/v1/burnTask:
     post:
       consumes:

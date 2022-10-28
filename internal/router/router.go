@@ -18,7 +18,7 @@ func Routes(app *gin.Engine) {
 			v1.POST("burnTask", api.BurnTask)
 			v1.POST("burnMixVideo", api.BurnMix3Video)
 			//v1.POST("burnMixVideo4to1", api.BurnMixVideo4To1)
-			//v1.POST("burnSingleVideo", api.BurnSingleVideo)
+			v1.POST("burnSingleVideo", api.BurnSingleVideo)
 			//v1.POST("burnOtherSingleVideo", api.BurnOtherSingleVideo)
 			//v1.POST("burnFile", api.BurnFile)
 			//// 3合一 放开此注释 [兼容老版本]

@@ -49,6 +49,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/burnSingleVideo": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "房间单画面"
+                ],
+                "summary": "下载房间单画面",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "burnSingleVideoDTO",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnSingleVideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/burnTask": {
             "post": {
                 "consumes": [
@@ -162,6 +195,46 @@ const docTemplate = `{
                 "videoName": {
                     "type": "string",
                     "example": "video"
+                }
+            }
+        },
+        "dto.BurnSingleVideoDTO": {
+            "type": "object",
+            "required": [
+                "endTime",
+                "rtspUrl",
+                "startTime"
+            ],
+            "properties": {
+                "callBackUrl": {
+                    "type": "string",
+                    "example": "http://localhost:8010/api/v1/callback"
+                },
+                "endTime": {
+                    "type": "string",
+                    "example": "2022-05-11 15:25:00"
+                },
+                "fileSavePath": {
+                    "type": "string"
+                },
+                "odaSavePath": {
+                    "type": "string",
+                    "example": "D:/downloadVideo"
+                },
+                "rtspUrl": {
+                    "type": "string",
+                    "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=0"
+                },
+                "startTime": {
+                    "type": "string",
+                    "example": "2022-05-11 15:20:00"
+                },
+                "taskId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "videoName": {
+                    "type": "string"
                 }
             }
         },

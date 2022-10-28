@@ -41,7 +41,7 @@ func (b *BurnInfoCmd) Update() error {
 
 // FfmpegDownloadMixVideo 执行下载视频
 func (b *BurnInfoCmd) FfmpegDownloadMixVideo() error {
-	// 1.执行命令
+	// 执行命令
 	ctx, _ := context.WithCancel(context.Background())
 	cmd := exec.CommandContext(ctx, config.C.Ffmpeg.LibPath, b.FfmpegCmdArgs...)
 
@@ -82,7 +82,7 @@ func (b *BurnInfoCmd) FfmpegDownloadMixVideo() error {
 	return nil
 }
 
-/*// FfmpegDownloadMix4Video 执行下载视频
+// FfmpegDownloadMix4Video 执行下载视频
 func (b *BurnInfoCmd) FfmpegDownloadMix4Video() error {
 	// 执行命令
 	ctx, _ := context.WithCancel(context.Background())
@@ -121,9 +121,9 @@ func (b *BurnInfoCmd) FfmpegDownloadMix4Video() error {
 
 // FfmpegDownloadRoomOneVideo 执行下载房间单画面视频
 func (b *BurnInfoCmd) FfmpegDownloadRoomOneVideo() error {
-	// 1.执行命令
+	// 执行命令
 	ctx, _ := context.WithCancel(context.Background())
-	cmd := exec.CommandContext(ctx, global.CONFIG.Ffmpeg.LibPath, b.FfmpegCmdArgs...)
+	cmd := exec.CommandContext(ctx, config.C.Ffmpeg.LibPath, b.FfmpegCmdArgs...)
 
 	cmd.StdinPipe()
 
@@ -158,9 +158,9 @@ func (b *BurnInfoCmd) FfmpegDownloadRoomOneVideo() error {
 
 // FfmpegDownloadPublicSingleOneVideo 执行下载公区单画面视频
 func (b *BurnInfoCmd) FfmpegDownloadPublicSingleOneVideo() error {
-	// 1.执行命令
+	// 执行命令
 	ctx, _ := context.WithCancel(context.Background())
-	cmd := exec.CommandContext(ctx, global.CONFIG.Ffmpeg.LibPath, b.FfmpegCmdArgs...)
+	cmd := exec.CommandContext(ctx, config.C.Ffmpeg.LibPath, b.FfmpegCmdArgs...)
 
 	cmd.StdinPipe()
 
@@ -191,7 +191,7 @@ func (b *BurnInfoCmd) FfmpegDownloadPublicSingleOneVideo() error {
 	b.CmdDoneCallBack()
 
 	return nil
-}*/
+}
 
 // CmdDoneCallBack 子任务完成后续操作
 func (b *BurnInfoCmd) CmdDoneCallBack() {
