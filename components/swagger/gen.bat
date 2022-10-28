@@ -1,0 +1,1 @@
+swag init --dir ./ --generalInfo internal/router/router.go --propertyStrategy snakecase --output internal/router/docs

@@ -1,0 +1,442 @@
+definitions:
+  dto.CopyReq:
+    properties:
+      id:
+        example: 1
+        type: integer
+    required:
+    - id
+    type: object
+  dto.StartMix3Req:
+    properties:
+      roomName:
+        example: "1"
+        type: string
+      rtspUrlLeft:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=1
+        type: string
+      rtspUrlMiddle:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+      rtspUrlRight:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=1
+        type: string
+      temperature:
+        example: ""
+        type: string
+    required:
+    - rtspUrlLeft
+    - rtspUrlMiddle
+    - rtspUrlRight
+    type: object
+  dto.StartReq:
+    properties:
+      rtspUrl:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+    required:
+    - rtspUrl
+    type: object
+  dto.StopReq:
+    properties:
+      rtmpUrl:
+        type: string
+      taskId:
+        type: integer
+    required:
+    - rtmpUrl
+    - taskId
+    type: object
+  response.Response:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        description: 响应数据
+      msg:
+        description: 响应消息
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /mix3/copyM3u8:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: copyReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CopyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 获取m3u8临时访问地址
+      tags:
+      - 三合一
+  /mix3/getAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 查询正在进行的任务
+      tags:
+      - 三合一
+  /mix3/reboot:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: stopReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StopReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 重启
+      tags:
+      - 三合一
+  /mix3/rebootAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 重启所有
+      tags:
+      - 三合一
+  /mix3/start:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StartMix3Req'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 开始
+      tags:
+      - 三合一
+  /mix3/stop:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: stopReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StopReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 停止
+      tags:
+      - 三合一
+  /mix3/stopAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 停止所有
+      tags:
+      - 三合一
+  /public/copyM3u8:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: copyReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CopyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 获取m3u8临时访问地址
+      tags:
+      - 公区画面
+  /public/getAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 查询正在进行的任务
+      tags:
+      - 公区画面
+  /public/reboot:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: stopReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StopReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 重启
+      tags:
+      - 公区画面
+  /public/rebootAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 重启所有
+      tags:
+      - 公区画面
+  /public/start:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StartReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 开始
+      tags:
+      - 公区画面
+  /public/stop:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: stopReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StopReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 停止
+      tags:
+      - 公区画面
+  /public/stopAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 停止所有
+      tags:
+      - 公区画面
+  /single/copyM3u8:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: copyReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CopyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 获取m3u8临时访问地址
+      tags:
+      - 房间单画面
+  /single/getAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 查询正在进行的任务
+      tags:
+      - 房间单画面
+  /single/reboot:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: stopReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StopReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 重启
+      tags:
+      - 房间单画面
+  /single/rebootAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 重启所有
+      tags:
+      - 房间单画面
+  /single/start:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StartReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 开始
+      tags:
+      - 房间单画面
+  /single/stop:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: stopReq
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StopReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 停止
+      tags:
+      - 房间单画面
+  /single/stopAll:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 停止所有
+      tags:
+      - 房间单画面
+swagger: "2.0"

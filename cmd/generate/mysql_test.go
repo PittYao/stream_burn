@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var dsn = "root:root@tcp(127.0.0.1:3306)/stream_push_save?charset=utf8&parseTime=True&loc=Local"
+var dsn = "root:root@tcp(127.0.0.1:3306)/stream_burn?charset=utf8&parseTime=True&loc=Local"
 
 // 确保 WritePath文件夹已存在
 
