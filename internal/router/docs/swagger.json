@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/mix3/copyM3u8": {
+        "/api/v1/burnMixVideo": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -15,15 +15,15 @@
                 "tags": [
                     "三合一"
                 ],
-                "summary": "获取m3u8临时访问地址",
+                "summary": "下载三合一画面",
                 "parameters": [
                     {
                         "description": " ",
-                        "name": "copyReq",
+                        "name": "burnMix3VideoDTO",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CopyReq"
+                            "$ref": "#/definitions/dto.BurnMix3VideoDTO"
                         }
                     }
                 ],
@@ -37,7 +37,7 @@
                 }
             }
         },
-        "/mix3/getAll": {
+        "/api/v1/burnTask": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -46,548 +46,20 @@
                     "application/json"
                 ],
                 "tags": [
-                    "三合一"
+                    "刻录任务"
                 ],
-                "summary": "查询正在进行的任务",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/mix3/reboot": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "三合一"
-                ],
-                "summary": "重启",
+                "summary": "创建刻录任务",
                 "parameters": [
                     {
                         "description": " ",
-                        "name": "stopReq",
+                        "name": "burnSettingDTO",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.StopReq"
+                            "$ref": "#/definitions/dto.BurnSettingDTO"
                         }
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/mix3/rebootAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "三合一"
-                ],
-                "summary": "重启所有",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/mix3/start": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "三合一"
-                ],
-                "summary": "开始",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StartMix3Req"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/mix3/stop": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "三合一"
-                ],
-                "summary": "停止",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "stopReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StopReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/mix3/stopAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "三合一"
-                ],
-                "summary": "停止所有",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/copyM3u8": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "获取m3u8临时访问地址",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "copyReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.CopyReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/getAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "查询正在进行的任务",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/reboot": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "重启",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "stopReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StopReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/rebootAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "重启所有",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/start": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "开始",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StartReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/stop": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "停止",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "stopReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StopReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/public/stopAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "公区画面"
-                ],
-                "summary": "停止所有",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/copyM3u8": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "获取m3u8临时访问地址",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "copyReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.CopyReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/getAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "查询正在进行的任务",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/reboot": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "重启",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "stopReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StopReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/rebootAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "重启所有",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/start": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "开始",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "req",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StartReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/stop": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "停止",
-                "parameters": [
-                    {
-                        "description": " ",
-                        "name": "stopReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.StopReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.Response"
-                        }
-                    }
-                }
-            }
-        },
-        "/single/stopAll": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "房间单画面"
-                ],
-                "summary": "停止所有",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -600,29 +72,30 @@
         }
     },
     "definitions": {
-        "dto.CopyReq": {
+        "dto.BurnMix3VideoDTO": {
             "type": "object",
             "required": [
-                "id"
-            ],
-            "properties": {
-                "id": {
-                    "type": "integer",
-                    "example": 1
-                }
-            }
-        },
-        "dto.StartMix3Req": {
-            "type": "object",
-            "required": [
+                "endTime",
                 "rtspUrlLeft",
                 "rtspUrlMiddle",
-                "rtspUrlRight"
+                "rtspUrlRight",
+                "startTime"
             ],
             "properties": {
-                "roomName": {
+                "callBackUrl": {
                     "type": "string",
-                    "example": "1"
+                    "example": "http://localhost:8010/api/v1/callback"
+                },
+                "endTime": {
+                    "type": "string",
+                    "example": "2022-05-11 15:25:00"
+                },
+                "fileSavePath": {
+                    "type": "string"
+                },
+                "odaSavePath": {
+                    "type": "string",
+                    "example": "D:/downloadVideo"
                 },
                 "rtspUrlLeft": {
                     "type": "string",
@@ -636,36 +109,47 @@
                     "type": "string",
                     "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=1"
                 },
+                "startTime": {
+                    "type": "string",
+                    "example": "2022-05-11 15:20:00"
+                },
+                "taskId": {
+                    "type": "integer",
+                    "example": 1
+                },
                 "temperature": {
                     "type": "string",
                     "example": ""
+                },
+                "videoName": {
+                    "type": "string"
                 }
             }
         },
-        "dto.StartReq": {
+        "dto.BurnSettingDTO": {
             "type": "object",
             "required": [
-                "rtspUrl"
+                "odaSavePath",
+                "taskNum"
             ],
             "properties": {
-                "rtspUrl": {
+                "encryptionType": {
+                    "type": "integer"
+                },
+                "odaSavePath": {
                     "type": "string",
-                    "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=0"
-                }
-            }
-        },
-        "dto.StopReq": {
-            "type": "object",
-            "required": [
-                "rtmpUrl",
-                "taskId"
-            ],
-            "properties": {
-                "rtmpUrl": {
+                    "example": "D:/videodata"
+                },
+                "password": {
                     "type": "string"
                 },
-                "taskId": {
-                    "type": "integer"
+                "taskNum": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "videoName": {
+                    "type": "string",
+                    "example": "video"
                 }
             }
         },

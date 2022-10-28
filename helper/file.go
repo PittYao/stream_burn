@@ -1,9 +1,15 @@
 package helper
 
 import (
+	"errors"
+	"github.com/PittYao/stream_burn/components/log"
 	"github.com/PittYao/stream_burn/internal/consts"
+	"go.uber.org/zap"
 	"os"
+	"os/exec"
 	"path"
+	"runtime"
+	"strings"
 )
 
 // CopyFile 拷贝文件
@@ -17,6 +23,50 @@ func CopyFile(distFilePath string, srcFilePath string) error {
 		return err
 	}
 	return nil
+}
+
+func CopyDir(src string, dest string, removeSrc bool) error {
+	src = FormatPath(src)
+	dest = FormatPath(dest)
+
+	var cmd *exec.Cmd
+
+	switch runtime.GOOS {
+	case "windows":
+		cmd = exec.Command("xcopy", src, dest, "/I", "/Y")
+	case "darwin", "linux":
+		cmd = exec.Command("cp", "-R", src, dest)
+	}
+
+	_, e := cmd.Output()
+	if e != nil {
+		log.L.Error("复制文件夹异常: " + e.Error())
+		return errors.New("复制文件夹异常")
+	}
+	log.L.Info("复制文件成功", zap.String("src", src), zap.String("dest", dest))
+
+	if removeSrc {
+		// 复制完毕，删除源文件
+		if err := os.RemoveAll(src); err != nil {
+			log.L.Error("删除源文件失败: " + src)
+		} else {
+			log.L.Info("删除源文件成功: " + src)
+		}
+	}
+
+	return nil
+}
+
+func FormatPath(s string) string {
+	switch runtime.GOOS {
+	case "windows":
+		return strings.Replace(s, "/", "\\", -1)
+	case "darwin", "linux":
+		return strings.Replace(s, "\\", "/", -1)
+	default:
+		log.L.Info("only support linux,windows,darwin, but os is " + runtime.GOOS)
+		return s
+	}
 }
 
 // GetFileName 获取文件名称

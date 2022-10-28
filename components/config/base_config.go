@@ -5,14 +5,12 @@ import "time"
 var C *Config
 
 type Config struct {
-	Server       Server  `yaml:"server"`
-	Log          Log     `yaml:"log"`
-	Mysql        Mysql   `yaml:"mysql"`
-	Swagger      Swagger `yaml:"swagger"`
-	Video        Video   `yaml:"video"`
-	Ffmpeg       Ffmpeg  `yaml:"ffmpeg"`
-	Nginx        Nginx   `yaml:"nginx"`
-	ServerInfoId uint    `yaml:"-"`
+	Server  Server  `yaml:"server"`
+	Log     Log     `yaml:"log"`
+	Mysql   Mysql   `yaml:"mysql"`
+	Swagger Swagger `yaml:"swagger"`
+	Ffmpeg  Ffmpeg  `yaml:"ffmpeg"`
+	Burn    Burn    `yaml:"burn"`
 }
 
 type Server struct {
@@ -51,9 +49,5 @@ type Swagger struct {
 }
 
 type Ffmpeg struct {
-	LibPath string `yaml:"libPath"`
-}
-
-type Nginx struct {
 	LibPath string `yaml:"libPath"`
 }

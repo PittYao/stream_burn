@@ -13,14 +13,19 @@ func GetTimeNow() *time.Time {
 	return &t
 }
 
-// GetDisuseAtTime 获取文件的淘汰时间
-func GetDisuseAtTime(rootTime time.Time, day int) *time.Time {
-	if rootTime.IsZero() {
-		rootTime = time.Now()
-	}
-	hour := 24 * day
-	duration := time.Duration(hour)
+// TimeCompare 对比时间的大小
+func TimeCompare(t1, t2 string) (error, bool, *time.Time, *time.Time) {
+	time1, err := time.ParseInLocation("2006-01-02 15:04:05", t1, time.Local)
+	time2, err := time.ParseInLocation("2006-01-02 15:04:05", t2, time.Local)
 
-	disuseAt := rootTime.Add(time.Hour * duration)
-	return &disuseAt
+	now := time.Now()
+
+	if err != nil {
+		return err, false, &now, &now
+	}
+
+	if time1.Before(time2) {
+		return nil, true, &time1, &time2
+	}
+	return nil, false, &time1, &time2
 }

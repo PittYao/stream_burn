@@ -30,8 +30,15 @@ const (
 )
 
 const (
+	// 接口地址
+
+	CopyM3u8 = "/copyM3u8"
+)
+
+const (
 	// nginx检测
 
+	Http          = "http://"
 	Localhost     = "127.0.0.1"
 	RtmpPort      = "1935"
 	M3u8UrlPort   = ":8880"
@@ -48,19 +55,18 @@ const (
 )
 
 const (
-	RunIngError        int = -1 // 运行异常
-	RunNetworkError    int = -2 // 网络运行异常
-	RunIng             int = 2  // 正在运行
-	CloseSuccess       int = 4  // 关闭成功
-	ReBoot             int = 6  // 定时重启
-	RebootNetworkError int = 7  // 网络运行异常已重启
-	Boot               int = 8  // 开机重启
+	// 任务运行状态 -1=异常结束 1=正常结束
+
+	Success     int64 = 1  //正常结束
+	RunIng      int64 = 2  // 正在运行
+	RunIngError int64 = -1 //  异常结束
 )
 
 const (
-	TsFile       = "ts"
-	FirstTsFile  = "video000.ts"
-	TsFilePrefix = "video"
-	EmptyTsFile  = ""
-	M3u8File     = "playlist.m3u8"
+	TsFile        = "ts"
+	FirstTsFile   = "video000.ts"
+	TsFilePrefix  = "video"
+	EmptyTsFile   = ""
+	M3u8File      = "playlist.m3u8"
+	SplitFileName = "_%03d.mp4"
 )

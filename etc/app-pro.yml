@@ -1,5 +1,9 @@
 mysql:
-  db: pro
+  dsn: root:root@tcp(localhost:3306)/stream_burn?charset=utf8mb4&parseTime=True&loc=Local
 
 log:
-  format: json
+  format: console
+
+burn:
+  tmpPath: D:/downloadVideo/fileTemp/
+  copyFilePath: lib/file

@@ -9,6 +9,7 @@ import (
 	"github.com/duke-git/lancet/datetime"
 	"github.com/duke-git/lancet/fileutil"
 	"go.uber.org/zap"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -97,4 +98,68 @@ func M3u8TempUrlHandler(savePath string) (string, error) {
 	// 构建m3u8网络地址
 	m3u8Url := GetTempM3u8Url(config.C.Server.Ip, savePath, m3u8FileName)
 	return m3u8Url, nil
+}
+
+// RedirectUrlBuilder 重定向url
+func RedirectUrlBuilder(serverHost, port, url string) string {
+	// http://192.168.99.127:8008/record/single/start
+	return fmt.Sprintf("%s%s%s%s", consts.Http, serverHost, port, url)
+}
+
+// CalculatingTime 请求的开始结束时间 和 视频的开始结束时间 构建ffmpeg下载参数
+func CalculatingTime(startTime, endTime, fileStartTime, fileEndTime *time.Time) (string, string) {
+	// 1.转化为秒
+	startTimeUnix := startTime.Unix()
+	endTimeUnix := endTime.Unix()
+	fileStartTimeUnix := fileStartTime.Unix()
+	fileEndTimeUnix := fileEndTime.Unix()
+
+	// 2.比较大小
+
+	// a1 = fileStartTimeUnix ; a2 = fileEndTimeUnix
+	// b1 = startTimeUnix ; b2 = endTimeUnix
+
+	// b1 >= a1 && b2 <= a2  ===>  b1~b2
+	var ss int64
+	var duration int64
+	if startTimeUnix >= fileStartTimeUnix && endTimeUnix <= fileEndTimeUnix {
+		// 距离文件的起始时间多少秒: b1-a1
+		ss = startTimeUnix - fileStartTimeUnix
+		// 截取多少秒: b2-b1
+		duration = endTimeUnix - startTimeUnix
+	} else if startTimeUnix < fileStartTimeUnix && endTimeUnix > fileStartTimeUnix && endTimeUnix <= fileEndTimeUnix {
+		// b1 < a1 && a1<=b2<=a2 ===> a1~b2
+		// 距离文件的起始时间多少秒: 0
+		ss = 0
+		// 截取多少秒: b2-a1
+		duration = endTimeUnix - fileStartTimeUnix
+	} else if endTimeUnix > startTimeUnix && startTimeUnix >= fileStartTimeUnix && startTimeUnix < fileEndTimeUnix && endTimeUnix > fileEndTimeUnix {
+		// b2 > b1 && a1<=b1<=a2 ===> b1~a2
+		// 距离文件的起始时间多少秒: b1-a1
+		ss = startTimeUnix - fileStartTimeUnix
+		// 截取多少秒: a2-b1
+		duration = fileEndTimeUnix - startTimeUnix
+	} else if startTimeUnix < fileStartTimeUnix && fileEndTimeUnix < endTimeUnix {
+		// b1 < a1 && a2 < b2
+		// 距离文件的起始时间多少秒: a2-a1
+		ss = 0
+		// 截取多少秒: a2-b1
+		duration = fileEndTimeUnix - fileStartTimeUnix
+	}
+	return strconv.FormatInt(ss, 10), strconv.FormatInt(duration, 10)
+}
+
+// GetSaveFileCmd 下载视频的ffmpeg命令构建
+func GetSaveFileCmd(ss, m3u8Url, duration, mp4SavePath string) ([]string, string) {
+	//-ss ${ss} -i ${m3u8Url} -c copy -t ${duration} -f segment -r 25 -segment_time 3600 -crf 28 ${mp4SavePath}
+	cmdArgs := "  -ss " + ss + " -i " + m3u8Url + " -c copy -t " + duration + " -f segment -r 25 -segment_time 3600 -crf 28 " + mp4SavePath
+
+	log.L.Info("构建下载视频命令",
+		zap.Any("Ss", ss),
+		zap.Any("M3u8Url", m3u8Url),
+		zap.Any("Duration", duration),
+		zap.Any("Mp4SavePath", mp4SavePath),
+		zap.Any("ffmpeg_cmd", cmdArgs))
+
+	return CmdString2Array(cmdArgs), cmdArgs
 }

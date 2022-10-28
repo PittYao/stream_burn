@@ -1,6 +1,6 @@
 server:
   profile: dev
-  name: worker
+  name: burn
   ip: 127.0.0.1
   port: 8004
 
@@ -20,8 +20,8 @@ mysql:
 
 swagger:
 #  http://localhost:8080/doc/index.html
-  title: 视频存储服务文档
-  desc: 合成画面、房间单画面、公区单画面
+  title: 视频刻录服务文档
+  desc:
   host: ""
   url: /doc
   basePath: /
@@ -30,5 +30,4 @@ swagger:
 
 ffmpeg:
   libPath: lib/ffmpeg/ffmpeg.exe
-nginx:
-  libPath: lib/nginx
+
