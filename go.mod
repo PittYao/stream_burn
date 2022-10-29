@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/guonaihong/gout v0.3.1
 	github.com/jinzhu/copier v0.3.5
+	github.com/kirinlabs/HttpRequest v1.1.1
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/qmhball/db2gorm v0.1.0
 	github.com/spf13/viper v1.13.0

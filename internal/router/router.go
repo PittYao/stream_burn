@@ -19,14 +19,14 @@ func Routes(app *gin.Engine) {
 			v1.POST("burnMixVideo", api.BurnMix3Video)
 			//v1.POST("burnMixVideo4to1", api.BurnMixVideo4To1)
 			v1.POST("burnSingleVideo", api.BurnSingleVideo)
-			//v1.POST("burnOtherSingleVideo", api.BurnOtherSingleVideo)
-			//v1.POST("burnFile", api.BurnFile)
+			v1.POST("burnOtherSingleVideo", api.BurnPublicVideo)
+			v1.POST("burnFile", api.BurnFile)
 			//// 3合一 放开此注释 [兼容老版本]
-			//v1.POST("burnParams", api.BurnParams)
+			v1.POST("burnParams", api.BurnParams)
 			//// 4合一是该接口
 			////v1.POST("burnParams", api.Burn41Params)
-			//v1.POST("burnSingleParams", api.BurnSingleParams)
-			//v1.POST("burnOtherSingleParams", api.BurnOtherSingleParams)
+			v1.POST("burnSingleParams", api.BurnSingleParams)
+			v1.POST("burnOtherSingleParams", api.BurnOtherSingleParams)
 
 			v1.POST("callback", func(c *gin.Context) {
 				var callbackDTO httpclient.CallbackDTO

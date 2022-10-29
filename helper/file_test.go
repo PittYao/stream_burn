@@ -3,6 +3,8 @@ package helper
 import (
 	"fmt"
 	"os"
+	"path"
+	"strings"
 	"syscall"
 	"testing"
 	"time"
@@ -36,4 +38,13 @@ func TestGetTsFileModifyTime(t *testing.T) {
 
 	duration1 := access.Sub(create)
 	fmt.Println(duration1.Seconds())
+}
+
+func TestPathJoin(t *testing.T) {
+	filePath := "D:\\ddd/ed//"
+	fileName := "dddrr"
+
+	println(path.Join(filePath, fileName+"ddww.jpg"))
+
+	println(strings.LastIndex(filePath, "\\") == len(filePath)-1)
 }

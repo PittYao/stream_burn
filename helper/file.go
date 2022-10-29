@@ -4,7 +4,9 @@ import (
 	"errors"
 	"github.com/PittYao/stream_burn/components/log"
 	"github.com/PittYao/stream_burn/internal/consts"
+	"github.com/kirinlabs/HttpRequest"
 	"go.uber.org/zap"
+	"net/http"
 	"os"
 	"os/exec"
 	"path"
@@ -113,4 +115,32 @@ func GetTsFileNumber(filePath string) string {
 		}
 	}
 	return a
+}
+
+func DownloadFile2Path(url, savePath string) (error, string) {
+	request := HttpRequest.NewRequest()
+
+	res, err := request.Get(url)
+	statusCode := res.StatusCode()
+	if statusCode == http.StatusNotFound || statusCode == http.StatusInternalServerError || err != nil {
+		log.L.Error("下载文件失败,访问url失败")
+		return errors.New("下载文件失败，访问url失败"), ""
+	}
+
+	body, err := res.Body()
+
+	// url中获取文件名
+	r, _ := http.NewRequest("GET", url, nil)
+	fileName := path.Base(r.URL.Path)
+
+	savePath = savePath + fileName
+
+	err = os.WriteFile(savePath, body, os.ModePerm)
+	if err != nil {
+		log.L.Error("下载文件失败,存储到本地失败")
+		return errors.New("下载文件失败,存储到本地失败"), ""
+	}
+
+	return nil, savePath
+
 }

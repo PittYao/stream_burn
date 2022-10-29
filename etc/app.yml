@@ -2,7 +2,7 @@ server:
   profile: dev
   name: burn
   ip: 127.0.0.1
-  port: 8004
+  port: 8001
 
 log:
   dir: logs

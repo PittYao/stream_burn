@@ -32,3 +32,13 @@ type BurnSingleVideoDTO struct {
 	FileSavePath string `json:"fileSavePath"`
 	VideoName    string `json:"videoName"`
 }
+
+// 下载文件
+type BurnFileDTO struct {
+	FileUrl        string `json:"fileUrl" example:"https://static.runoob.com/images/demo/demo1.jpg"`
+	CallbackUrl    string `json:"callbackUrl" example:"http://localhost:8010/api/v1/callback"`
+	CallbackStatus int64  `json:"callbackStatus"`
+	OdaSavePath    string `json:"odaSavePath" example:"D:/downloadVideo"`
+	DoneStatus     int64  `json:"done_status"`
+	BurnSettingID  uint   `json:"taskId" example:"1"`
+}

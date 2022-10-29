@@ -16,6 +16,39 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/burnFile": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文件"
+                ],
+                "summary": "下载文件",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "fileReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnFileDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/burnMixVideo": {
             "post": {
                 "consumes": [
@@ -31,11 +64,143 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": " ",
+                        "name": "mix3Req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnMix3VideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/burnOtherSingleParams": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "下载参数"
+                ],
+                "summary": "公区",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "publicReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnSingleVideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/burnOtherSingleVideo": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "公区"
+                ],
+                "summary": "下载公区",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "publicReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnSingleVideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/burnParams": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "下载参数"
+                ],
+                "summary": "三合一",
+                "parameters": [
+                    {
+                        "description": " ",
                         "name": "burnMix3VideoDTO",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/dto.BurnMix3VideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/burnSingleParams": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "下载参数"
+                ],
+                "summary": "房间单画面",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "singleReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnSingleVideoDTO"
                         }
                     }
                 ],
@@ -64,7 +229,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": " ",
-                        "name": "burnSingleVideoDTO",
+                        "name": "singleReq",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -117,6 +282,33 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.BurnFileDTO": {
+            "type": "object",
+            "properties": {
+                "callbackStatus": {
+                    "type": "integer"
+                },
+                "callbackUrl": {
+                    "type": "string",
+                    "example": "http://localhost:8010/api/v1/callback"
+                },
+                "done_status": {
+                    "type": "integer"
+                },
+                "fileUrl": {
+                    "type": "string",
+                    "example": "https://static.runoob.com/images/demo/demo1.jpg"
+                },
+                "odaSavePath": {
+                    "type": "string",
+                    "example": "D:/downloadVideo"
+                },
+                "taskId": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
         "dto.BurnMix3VideoDTO": {
             "type": "object",
             "required": [

@@ -1,4 +1,4 @@
-package roomrecordone
+package publicrecordone
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-type RoomRecordOne struct {
+type PublicRecordOne struct {
 	gorm.Model
 	RtspUrl                  string
 	Ip                       string
@@ -37,74 +37,74 @@ type RoomRecordOne struct {
 	RebootParentId           uint       //重启任务的父id
 	M3u8Url                  string     //m3u8地址
 	FileRecentTime           *time.Time // 最新生成文件的时间
-	TsFile                   string     // 最新ts文件
+	TsFile                   string     // 最新ts文件地址
 	DisuseAt                 *time.Time // 淘汰的时间，过期的文件可以被删除
 }
 
 // --- orm --- //
 
 // Add 插入单个流任务
-func (r *RoomRecordOne) Add() error {
+func (r *PublicRecordOne) Add() error {
 	create := mysql.Instance.Create(r)
 	if create.Error != nil {
-		log.L.Error("新增转流任务失败", zap.Error(create.Error))
-		return errors.New("新增转流任务失败")
+		log.L.Error("新增公区转流任务失败", zap.Error(create.Error))
+		return errors.New(" 新增公区转流任务失败")
 	}
 
 	return nil
 }
 
 // Update 更新
-func (r *RoomRecordOne) Update() error {
+func (r *PublicRecordOne) Update() error {
 	save := mysql.Instance.Save(&r)
 	if save.Error != nil {
-		log.L.Error("RoomRecordOne 更新失败", zap.Error(save.Error))
-		return errors.New("RoomRecordOne 更新失败")
-	}
-	return save.Error
-
-}
-
-// Delete 删除
-func (r *RoomRecordOne) Delete() error {
-	save := mysql.Instance.Delete(&r)
-	if save.Error != nil {
-		log.L.Error("single 删除失败", zap.Error(save.Error))
-		return errors.New("single 删除失败")
+		log.L.Error("更新失败", zap.Error(save.Error))
+		return errors.New("更新失败")
 	}
 	return save.Error
 
 }
 
 // GetById id查询
-func GetById(id uint) (*RoomRecordOne, error) {
-	var roomRecordOne RoomRecordOne
-	mysql.Instance.First(&roomRecordOne, id)
+func GetById(id uint) (*PublicRecordOne, error) {
+	var publicRecordOne PublicRecordOne
+	mysql.Instance.First(&publicRecordOne, id)
 
-	if roomRecordOne.ID == 0 {
-		log.L.Error("DB中没有查询到该单画面任务", zap.Uint("id", id))
-		return nil, errors.New("DB中没有查询到该单画面任务")
+	if publicRecordOne.ID == 0 {
+		log.L.Error("DB中没有查询到该公区单画面任务", zap.Uint("id", id))
+		return nil, errors.New("DB中没有查询到该公区单画面任务")
 	}
 
-	return &roomRecordOne, nil
+	return &publicRecordOne, nil
 }
 
-// QuerySingleFile  查询房间单画面视频任务
-func QuerySingleFile(burnSingleVideoDTO dto.BurnSingleVideoDTO) []*RoomRecordOne {
-	var roomRecordOnes []*RoomRecordOne
+// Delete 删除
+func (r *PublicRecordOne) Delete() error {
+	save := mysql.Instance.Delete(&r)
+	if save.Error != nil {
+		log.L.Error("公区 删除失败", zap.Error(save.Error))
+		return errors.New("公区 删除失败")
+	}
+	return save.Error
 
-	var middle []*RoomRecordOne
-	var include []*RoomRecordOne
-	var left []*RoomRecordOne
-	var right []*RoomRecordOne
-	var ing []*RoomRecordOne
+}
+
+// QueryPublicOneFile  查询房间单画面视频任务
+func QueryPublicOneFile(burnSingleVideoDTO dto.BurnSingleVideoDTO) []*PublicRecordOne {
+	var ones []*PublicRecordOne
+
+	var middle []*PublicRecordOne
+	var include []*PublicRecordOne
+	var left []*PublicRecordOne
+	var right []*PublicRecordOne
+	var ing []*PublicRecordOne
 
 	rtspUrl := helper.EncodeRtspUrl(burnSingleVideoDTO.RtspUrl)
 	startTime := burnSingleVideoDTO.StartTime
 	endTime := burnSingleVideoDTO.EndTime
 
-	// 1.查询已经结束的任务 和 异常结束的任务能否满足查询条件
-	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0;",
+	// 查询已经结束的任务 和 异常结束的任务能否满足查询条件
+	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
 		rtspUrl, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&middle)
 
 	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
@@ -120,26 +120,26 @@ func QuerySingleFile(burnSingleVideoDTO dto.BurnSingleVideoDTO) []*RoomRecordOne
 	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ?  and ffmpeg_save_state = ?",
 		rtspUrl, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&ing)
 
-	roomRecordOnes = append(roomRecordOnes, middle...)
-	roomRecordOnes = append(roomRecordOnes, include...)
-	roomRecordOnes = append(roomRecordOnes, left...)
-	roomRecordOnes = append(roomRecordOnes, right...)
+	ones = append(ones, middle...)
+	ones = append(ones, include...)
+	ones = append(ones, left...)
+	ones = append(ones, right...)
 
-	if len(roomRecordOnes) != 0 {
+	if len(ones) != 0 {
 		// 处理已经结束的任务
-		for i := 0; i < len(roomRecordOnes); i++ {
-			one := roomRecordOnes[i]
+		for i := 0; i < len(ones); i++ {
+			one := ones[i]
 			if one.TsFile == "" {
 				log.L.Sugar().Error("任务tsFile为空,任务id是:%d", one.ID)
 				continue
 			}
 			// 校验m3u8地址是否可用
-			//err := httpclient.CheckM3u8Available(one.M3u8Url)
-			//if err != nil {
-			//	log.L.Sugar().Error("任务m3u8Url不可用,m3u8Url:%s", one.M3u8Url)
-			//	roomRecordOnes = append(roomRecordOnes[:i], roomRecordOnes[i+1:]...)
-			//	i--
-			//}
+			err := httpclient.CheckM3u8Available(one.M3u8Url)
+			if err != nil {
+				log.L.Sugar().Error("任务m3u8Url不可用,m3u8Url:%s", one.M3u8Url)
+				ones = append(ones[:i], ones[i+1:]...)
+				i--
+			}
 
 		}
 	}
@@ -158,7 +158,7 @@ func QuerySingleFile(burnSingleVideoDTO dto.BurnSingleVideoDTO) []*RoomRecordOne
 			}
 
 			// 请求远端获取临时文件
-			copyUrl := helper.RedirectUrlBuilder(one.Ip, consts.SinglePort, fmt.Sprintf("/%s%s", consts.Single, consts.CopyM3u8))
+			copyUrl := helper.RedirectUrlBuilder(one.Ip, consts.PublicPort, fmt.Sprintf("/%s%s", consts.PublicSingle, consts.CopyM3u8))
 			err, resp := httpclient.CopyM3u8HttpClient(copyUrl, one.ID)
 			if err != nil {
 				continue
@@ -171,22 +171,22 @@ func QuerySingleFile(burnSingleVideoDTO dto.BurnSingleVideoDTO) []*RoomRecordOne
 			now := time.Now()
 			one.FfmpegSaveCloseTime = &now
 
-			roomRecordOnes = append(roomRecordOnes, one)
+			ones = append(ones, one)
 
 		}
 	}
 
-	return roomRecordOnes
+	return ones
 
 }
 
-func (r *RoomRecordOne) ModelToTask() *stream.Task {
+func (r *PublicRecordOne) ModelToTask() *stream.Task {
 	task := stream.Task{}
 	copier.Copy(&task, r)
 	return &task
 }
 
-func ModelToTasks(ones []*RoomRecordOne) []*stream.Task {
+func ModelToTasks(ones []*PublicRecordOne) []*stream.Task {
 	var tasks []*stream.Task
 
 	for _, one := range ones {

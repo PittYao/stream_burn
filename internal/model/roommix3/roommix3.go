@@ -9,11 +9,10 @@ import (
 	"github.com/PittYao/stream_burn/internal/consts"
 	"github.com/PittYao/stream_burn/internal/dto"
 	"github.com/PittYao/stream_burn/internal/httpclient"
-	"github.com/PittYao/stream_burn/internal/model/burninfocmd"
-	"github.com/PittYao/stream_burn/internal/model/burnsetting"
+	"github.com/PittYao/stream_burn/internal/model/stream"
+	"github.com/jinzhu/copier"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
-	"strconv"
 	"time"
 )
 
@@ -112,19 +111,19 @@ func QueryMix3File(burnMixVideoDTO dto.BurnMix3VideoDTO) []*RoomMix3 {
 	endTime := burnMixVideoDTO.EndTime
 
 	// 查询已经结束的任务 和 异常结束的任务能否满足查询条件
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ?",
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
 		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&middle)
 
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ?",
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
 		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&include)
 
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ?",
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
 		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&left)
 
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time < ? and ffmpeg_save_close_time > ? and ffmpeg_save_state != ?",
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time < ? and ffmpeg_save_close_time > ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
 		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, startTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&right)
 
-	// 2.查询是否有正在进行的任务能满足查询条件
+	// 查询是否有正在进行的任务能满足查询条件
 	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ?  and ffmpeg_save_state = ?",
 		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&mixIng)
 
@@ -135,10 +134,10 @@ func QueryMix3File(burnMixVideoDTO dto.BurnMix3VideoDTO) []*RoomMix3 {
 
 	if len(mix3s) != 0 {
 		// 处理已经结束的任务
-		for i, _ := range mix3s {
+		for i := 0; i < len(mix3s); i++ {
 			mix3 := mix3s[i]
-			if mix3.M3u8Url == "" || mix3.TsFile == "" {
-				log.L.Sugar().Error("任务m3u8Url或tsFile为空,任务id是:%d", mix3.ID)
+			if mix3.TsFile == "" {
+				log.L.Sugar().Error("任务tsFile为空,任务id是:%d", mix3.ID)
 				continue
 			}
 			// 校验m3u8地址是否可用
@@ -146,6 +145,7 @@ func QueryMix3File(burnMixVideoDTO dto.BurnMix3VideoDTO) []*RoomMix3 {
 			if err != nil {
 				log.L.Sugar().Error("任务m3u8Url不可用,m3u8Url:%s", mix3.M3u8Url)
 				mix3s = append(mix3s[:i], mix3s[i+1:]...)
+				i--
 			}
 
 		}
@@ -186,33 +186,19 @@ func QueryMix3File(burnMixVideoDTO dto.BurnMix3VideoDTO) []*RoomMix3 {
 	return mix3s
 }
 
-// BuildMix3Mp4 下载视频命令构建
-func BuildMix3Mp4(burnInfoId, taskId uint, startTime, endTime *time.Time, mix3s []*RoomMix3, savFileTmpPath string) []*burninfocmd.BurnInfoCmd {
-	// 查询下载文件名称
-	videoName := burnsetting.GetBurnVideoName(taskId)
+func (r *RoomMix3) ModelToTask() *stream.Task {
+	task := stream.Task{}
+	copier.Copy(&task, r)
+	return &task
+}
 
-	var burnInfoCmds []*burninfocmd.BurnInfoCmd
+func ModelToTasks(mix3s []*RoomMix3) []*stream.Task {
+	var tasks []*stream.Task
 
-	for index, mix3 := range mix3s {
-		// 每个任务生成文件名称下标
-		videoName = videoName + "-" + strconv.Itoa(index)
-		// 比较 参数的开始时间 和 任务的开始时间 大小
-		ss, duration := helper.CalculatingTime(startTime, endTime, mix3.FfmpegSaveStartTime, mix3.FfmpegSaveCloseTime)
-		mp4SavePath := savFileTmpPath + "/" + videoName + consts.SplitFileName
-
-		// 下载视频的ffmpeg命令构建
-		cmdArgs, cmd := helper.GetSaveFileCmd(ss, mix3.M3u8Url, duration, mp4SavePath)
-
-		// 存储子任务
-		burnInfoCmd := burninfocmd.BurnInfoCmd{
-			FfmpegCmd:     cmd,
-			FfmpegCmdArgs: cmdArgs,
-			BurnInfoID:    burnInfoId,
-		}
-		mysql.Instance.Create(&burnInfoCmd)
-
-		burnInfoCmds = append(burnInfoCmds, &burnInfoCmd)
+	for _, mix3 := range mix3s {
+		task := mix3.ModelToTask()
+		tasks = append(tasks, task)
 	}
 
-	return burnInfoCmds
+	return tasks
 }

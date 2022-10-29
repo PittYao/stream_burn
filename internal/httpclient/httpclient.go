@@ -8,6 +8,7 @@ import (
 	"github.com/guonaihong/gout"
 	"go.uber.org/zap"
 	"net/http"
+	"time"
 )
 
 type CallbackDTO struct {
@@ -17,8 +18,8 @@ type CallbackDTO struct {
 }
 
 func CopyM3u8HttpClient(url string, id uint) (err error, response response.Response) {
-
-	err = gout.
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 3))
+	err = globalWithOpt.
 		// POST请求
 		POST(url).
 		// 打开debug模式
@@ -48,8 +49,8 @@ func CopyM3u8HttpClient(url string, id uint) (err error, response response.Respo
 }
 
 func CallBackHttpClient(url string, burnInfoUuId string) error {
-
-	err := gout.
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 3))
+	err := globalWithOpt.
 		// POST请求
 		POST(url).
 		// 打开debug模式
@@ -101,7 +102,8 @@ func CallBackFileHttpClient(url string, burnInfoUuId string, error error) error 
 		}
 	}
 
-	err := gout.
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 3))
+	err := globalWithOpt.
 		// POST请求
 		POST(url).
 		// 打开debug模式
@@ -121,9 +123,16 @@ func CallBackFileHttpClient(url string, burnInfoUuId string, error error) error 
 }
 
 func CheckM3u8Available(url string) error {
-	resp, err := gout.GET(url).Response()
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 2))
+	resp, err := globalWithOpt.
+		GET(url).
+		Debug(true).
+		Response()
 	if resp != nil {
 		defer resp.Body.Close()
+	}
+	if err != nil {
+		return err
 	}
 
 	if resp.StatusCode == 404 {
