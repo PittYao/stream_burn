@@ -138,9 +138,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.Response'
-      summary: 下载文件
+      summary: 文件
       tags:
-      - 文件
+      - 下载
   /api/v1/burnMixVideo:
     post:
       consumes:
@@ -159,9 +159,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.Response'
-      summary: 下载三合一画面
+      summary: 三合一
       tags:
-      - 三合一
+      - 下载
   /api/v1/burnOtherSingleParams:
     post:
       consumes:
@@ -201,9 +201,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.Response'
-      summary: 下载公区
+      summary: 公区
       tags:
-      - 公区
+      - 下载
   /api/v1/burnParams:
     post:
       consumes:
@@ -264,9 +264,9 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/response.Response'
-      summary: 下载房间单画面
+      summary: 房间
       tags:
-      - 房间单画面
+      - 下载
   /api/v1/burnTask:
     post:
       consumes:

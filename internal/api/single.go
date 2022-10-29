@@ -15,8 +15,8 @@ import (
 )
 
 // BurnSingleVideo godoc
-// @Summary 下载房间单画面
-// @Tags 房间单画面
+// @Summary 房间
+// @Tags 下载
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.Response

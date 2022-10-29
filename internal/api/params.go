@@ -78,7 +78,7 @@ func BurnSingleParams(c *gin.Context) {
 	response.OKMsg(c, "获取ffmpeg参数成功", cmds)
 }
 
-// BurnOtherSingleParams godoc
+// BurnPublicParams godoc
 // @Summary 公区
 // @Tags 下载参数
 // @Accept json
@@ -86,7 +86,7 @@ func BurnSingleParams(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Param publicReq body dto.BurnSingleVideoDTO true " "
 // @Router /api/v1/burnOtherSingleParams [post]
-func BurnOtherSingleParams(c *gin.Context) {
+func BurnPublicParams(c *gin.Context) {
 	var publicReq dto.BurnSingleVideoDTO
 	err := c.ShouldBindJSON(&publicReq)
 	if err != nil {

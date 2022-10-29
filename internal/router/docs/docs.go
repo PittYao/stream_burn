@@ -25,9 +25,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "文件"
+                    "下载"
                 ],
-                "summary": "下载文件",
+                "summary": "文件",
                 "parameters": [
                     {
                         "description": " ",
@@ -58,9 +58,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "三合一"
+                    "下载"
                 ],
-                "summary": "下载三合一画面",
+                "summary": "三合一",
                 "parameters": [
                     {
                         "description": " ",
@@ -124,9 +124,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "公区"
+                    "下载"
                 ],
-                "summary": "下载公区",
+                "summary": "公区",
                 "parameters": [
                     {
                         "description": " ",
@@ -223,9 +223,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "房间单画面"
+                    "下载"
                 ],
-                "summary": "下载房间单画面",
+                "summary": "房间",
                 "parameters": [
                     {
                         "description": " ",

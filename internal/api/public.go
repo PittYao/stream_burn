@@ -15,8 +15,8 @@ import (
 )
 
 // BurnPublicVideo godoc
-// @Summary 下载公区
-// @Tags 公区
+// @Summary 公区
+// @Tags 下载
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.Response

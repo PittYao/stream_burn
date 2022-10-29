@@ -19,8 +19,8 @@ import (
 )
 
 // BurnFile godoc
-// @Summary 下载文件
-// @Tags 文件
+// @Summary 文件
+// @Tags 下载
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.Response

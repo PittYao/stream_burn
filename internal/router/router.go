@@ -26,7 +26,7 @@ func Routes(app *gin.Engine) {
 			//// 4合一是该接口
 			////v1.POST("burnParams", api.Burn41Params)
 			v1.POST("burnSingleParams", api.BurnSingleParams)
-			v1.POST("burnOtherSingleParams", api.BurnOtherSingleParams)
+			v1.POST("burnOtherSingleParams", api.BurnPublicParams)
 
 			v1.POST("callback", func(c *gin.Context) {
 				var callbackDTO httpclient.CallbackDTO

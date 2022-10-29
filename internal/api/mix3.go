@@ -15,8 +15,8 @@ import (
 )
 
 // BurnMix3Video godoc
-// @Summary 下载三合一画面
-// @Tags 三合一
+// @Summary 三合一
+// @Tags 下载
 // @Accept json
 // @Produce json
 // @Success 200 {object} response.Response
