@@ -113,7 +113,7 @@ func Zap() {
 		return lev >= zap.ErrorLevel
 	})
 
-	logName := config.C.Server.Ip + "_" + config.C.Server.Name
+	logName := config.C.Server.Name
 	cores := [...]zapcore.Core{
 		getEncoderCore(fmt.Sprintf("./%s/%s_debug.log", config.C.Log.Dir, logName), debugLevel),
 		getEncoderCore(fmt.Sprintf("./%s/%s_info.log", config.C.Log.Dir, logName), infoLevel),
