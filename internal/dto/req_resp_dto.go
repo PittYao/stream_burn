@@ -42,3 +42,25 @@ type BurnFileDTO struct {
 	DoneStatus     int64  `json:"done_status"`
 	BurnSettingID  uint   `json:"taskId" example:"1"`
 }
+
+// QueryMixVideoDTO 查询回访地址
+type QueryMixVideoDTO struct {
+	RtspUrlMiddle string `json:"rtspUrlMiddle" binding:"required"`
+	RtspUrlLeft   string `json:"rtspUrlLeft" binding:"required"`
+	RtspUrlRight  string `json:"rtspUrlRight" binding:"required"`
+	Temperature   string `json:"temperature"`
+	StartTime     string `json:"startTime"`
+	EndTime       string `json:"endTime"`
+}
+
+type QuerySingleVideoDTO struct {
+	RtspUrl   string `json:"rtspUrl" binding:"required"`
+	StartTime string `json:"startTime"`
+	EndTime   string `json:"endTime"`
+}
+
+type QueryPublicSingleVideoDTO struct {
+	RtspUrl   string `json:"rtspUrl" binding:"required"`
+	StartTime string `json:"startTime"`
+	EndTime   string `json:"endTime"`
+}

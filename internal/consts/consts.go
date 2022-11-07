@@ -58,7 +58,7 @@ const (
 	// 任务运行状态 -1=异常结束 1=正常结束
 
 	Success     int64 = 1  //正常结束
-	RunIng      int64 = 2  // 正在运行
+	RunIng      int64 = 1  // 正在运行
 	RunIngError int64 = -1 //  异常结束
 )
 

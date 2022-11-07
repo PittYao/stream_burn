@@ -35,7 +35,7 @@ type RoomRecordOne struct {
 	FfmpegStateLog           string     // 流运行日志
 	RebootRootId             uint       //重启任务的根id
 	RebootParentId           uint       //重启任务的父id
-	M3u8Url                  string     //m3u8地址
+	M3u8Url                  string     `json:"m3u8Url"` //m3u8地址
 	FileRecentTime           *time.Time // 最新生成文件的时间
 	TsFile                   string     // 最新ts文件
 	DisuseAt                 *time.Time // 淘汰的时间，过期的文件可以被删除

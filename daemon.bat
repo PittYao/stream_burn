@@ -1,7 +1,7 @@
 chcp 65001
 @echo off 
 
-set _port=8001
+set _port=8084
 
 set _task=stream_burn.exe
 set _des=startup.bat

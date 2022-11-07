@@ -42,7 +42,7 @@ type RoomMix3 struct {
 	RebootRootId             uint
 	RebootParentId           uint
 	DisuseAt                 *time.Time
-	M3u8Url                  string
+	M3u8Url                  string `json:"m3u8Url"`
 }
 
 // --- orm --- //

@@ -288,4 +288,67 @@ paths:
       summary: 创建刻录任务
       tags:
       - 刻录任务
+  /api/v1/monitor/web/mix:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnMix3VideoDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 三合一
+      tags:
+      - 回放
+  /api/v1/monitor/web/other:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnSingleVideoDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 公区
+      tags:
+      - 回放
+  /api/v1/monitor/web/single:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnSingleVideoDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 房间单画面
+      tags:
+      - 回放
 swagger: "2.0"

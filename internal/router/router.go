@@ -39,6 +39,14 @@ func Routes(app *gin.Engine) {
 				response.OK(c, nil)
 			})
 
+			//  根据具体日期查询开始时间-结束时间的视频文件
+			monitorGroup := v1.Group("/monitor/web")
+			{
+				monitorGroup.POST("/mix", api.ListMix3Video)
+				monitorGroup.POST("/single", api.ListSingleVideo)
+				monitorGroup.POST("/other", api.ListPublicSingleVideo)
+			}
+
 		}
 
 	}
