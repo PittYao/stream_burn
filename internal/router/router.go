@@ -17,14 +17,14 @@ func Routes(app *gin.Engine) {
 		{
 			v1.POST("burnTask", api.BurnTask)
 			v1.POST("burnMixVideo", api.BurnMix3Video)
-			//v1.POST("burnMixVideo4to1", api.BurnMixVideo4To1)
+			v1.POST("burnMixVideo4to1", api.BurnMix4Video)
 			v1.POST("burnSingleVideo", api.BurnSingleVideo)
 			v1.POST("burnOtherSingleVideo", api.BurnPublicVideo)
 			v1.POST("burnFile", api.BurnFile)
-			//// 3合一 放开此注释 [兼容老版本]
+			// 3合一 放开此注释 [兼容老版本]
 			v1.POST("burnParams", api.BurnParams)
-			//// 4合一是该接口
-			////v1.POST("burnParams", api.Burn41Params)
+			// 4合一是该接口
+			v1.POST("burnMix4Params", api.Burn41Params)
 			v1.POST("burnSingleParams", api.BurnSingleParams)
 			v1.POST("burnOtherSingleParams", api.BurnPublicParams)
 
@@ -43,6 +43,7 @@ func Routes(app *gin.Engine) {
 			monitorGroup := v1.Group("/monitor/web")
 			{
 				monitorGroup.POST("/mix", api.ListMix3Video)
+				monitorGroup.POST("/mix4", api.ListMix4Video)
 				monitorGroup.POST("/single", api.ListSingleVideo)
 				monitorGroup.POST("/other", api.ListPublicSingleVideo)
 			}

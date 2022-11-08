@@ -58,6 +58,50 @@ definitions:
     - rtspUrlRight
     - startTime
     type: object
+  dto.BurnMixVideo4To1DTO:
+    properties:
+      callBackUrl:
+        example: http://localhost:8010/api/v1/callback
+        type: string
+      endTime:
+        example: "2022-05-11 15:25:00"
+        type: string
+      fileSavePath:
+        type: string
+      odaSavePath:
+        example: D:/downloadVideo
+        type: string
+      rtspUrlMiddle:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+      rtspUrlSmallOne:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+      rtspUrlSmallThree:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+      rtspUrlSmallTwo:
+        example: rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0
+        type: string
+      startTime:
+        example: "2022-05-11 15:20:00"
+        type: string
+      taskId:
+        example: 1
+        type: integer
+      temperature:
+        example: ""
+        type: string
+      videoName:
+        type: string
+    required:
+    - endTime
+    - rtspUrlMiddle
+    - rtspUrlSmallOne
+    - rtspUrlSmallThree
+    - rtspUrlSmallTwo
+    - startTime
+    type: object
   dto.BurnSettingDTO:
     properties:
       encryptionType:
@@ -141,6 +185,27 @@ paths:
       summary: 文件
       tags:
       - 下载
+  /api/v1/burnMix4Params:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: mix4Req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnMixVideo4To1DTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 四合一
+      tags:
+      - 下载参数
   /api/v1/burnMixVideo:
     post:
       consumes:
@@ -160,6 +225,27 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: 三合一
+      tags:
+      - 下载
+  /api/v1/burnMixVideo4to1:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: mix3Req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnMix3VideoDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 四合一
       tags:
       - 下载
   /api/v1/burnOtherSingleParams:
@@ -307,6 +393,27 @@ paths:
           schema:
             $ref: '#/definitions/response.Response'
       summary: 三合一
+      tags:
+      - 回放
+  /api/v1/monitor/web/mix4:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ' '
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/dto.BurnMix3VideoDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 四合一
       tags:
       - 回放
   /api/v1/monitor/web/other:

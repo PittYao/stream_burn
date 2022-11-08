@@ -6,6 +6,7 @@ import (
 	"github.com/PittYao/stream_burn/internal/dto"
 	"github.com/PittYao/stream_burn/internal/model/publicrecordone"
 	"github.com/PittYao/stream_burn/internal/model/roommix3"
+	"github.com/PittYao/stream_burn/internal/model/roommix4"
 	"github.com/PittYao/stream_burn/internal/model/roomrecordone"
 	"github.com/PittYao/stream_burn/internal/model/stream"
 	"github.com/gin-gonic/gin"
@@ -42,6 +43,39 @@ func BurnParams(c *gin.Context) {
 	// 下载视频命令构建
 	tasks := roommix3.ModelToTasks(mix3s)
 	cmds := stream.GetDownloadCmds(mix3Req.VideoName, startTime, endTime, tasks, mix3Req.FileSavePath)
+	response.OKMsg(c, "获取ffmpeg参数成功", cmds)
+}
+
+// Burn41Params godoc
+// @Summary 四合一
+// @Tags 下载参数
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.Response
+// @Param mix4Req body dto.BurnMixVideo4To1DTO true " "
+// @Router /api/v1/burnMix4Params [post]
+func Burn41Params(c *gin.Context) {
+	var mix4Req dto.BurnMixVideo4To1DTO
+	err := c.ShouldBindJSON(&mix4Req)
+	if err != nil {
+		response.Err(c, err.Error())
+		return
+	}
+	// 校验时间参数
+	startTime, endTime, done := ValidatedReqTime(c, mix4Req.StartTime, mix4Req.EndTime)
+	if done {
+		return
+	}
+	// 查询m3u8文件列表
+	mix4s := roommix4.QueryMix4File(mix4Req)
+	if len(mix4s) == 0 {
+		log.L.Info("没有查询到存在视频任务", zap.Any("req", mix4Req))
+		response.Err(c, "没有查询到存在视频任务")
+		return
+	}
+	// 下载视频命令构建
+	tasks := roommix4.ModelToTasks(mix4s)
+	cmds := stream.GetDownloadCmds(mix4Req.VideoName, startTime, endTime, tasks, mix4Req.FileSavePath)
 	response.OKMsg(c, "获取ffmpeg参数成功", cmds)
 }
 

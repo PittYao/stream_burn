@@ -49,6 +49,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/burnMix4Params": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "下载参数"
+                ],
+                "summary": "四合一",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "mix4Req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnMixVideo4To1DTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/burnMixVideo": {
             "post": {
                 "consumes": [
@@ -61,6 +94,39 @@ const docTemplate = `{
                     "下载"
                 ],
                 "summary": "三合一",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "mix3Req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnMix3VideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/burnMixVideo4to1": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "下载"
+                ],
+                "summary": "四合一",
                 "parameters": [
                     {
                         "description": " ",
@@ -313,6 +379,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/monitor/web/mix4": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "回放"
+                ],
+                "summary": "四合一",
+                "parameters": [
+                    {
+                        "description": " ",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.BurnMix3VideoDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/monitor/web/other": {
             "post": {
                 "consumes": [
@@ -444,6 +543,65 @@ const docTemplate = `{
                 "rtspUrlRight": {
                     "type": "string",
                     "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=1"
+                },
+                "startTime": {
+                    "type": "string",
+                    "example": "2022-05-11 15:20:00"
+                },
+                "taskId": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "temperature": {
+                    "type": "string",
+                    "example": ""
+                },
+                "videoName": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.BurnMixVideo4To1DTO": {
+            "type": "object",
+            "required": [
+                "endTime",
+                "rtspUrlMiddle",
+                "rtspUrlSmallOne",
+                "rtspUrlSmallThree",
+                "rtspUrlSmallTwo",
+                "startTime"
+            ],
+            "properties": {
+                "callBackUrl": {
+                    "type": "string",
+                    "example": "http://localhost:8010/api/v1/callback"
+                },
+                "endTime": {
+                    "type": "string",
+                    "example": "2022-05-11 15:25:00"
+                },
+                "fileSavePath": {
+                    "type": "string"
+                },
+                "odaSavePath": {
+                    "type": "string",
+                    "example": "D:/downloadVideo"
+                },
+                "rtspUrlMiddle": {
+                    "type": "string",
+                    "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=0"
+                },
+                "rtspUrlSmallOne": {
+                    "type": "string",
+                    "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=0"
+                },
+                "rtspUrlSmallThree": {
+                    "type": "string",
+                    "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=0"
+                },
+                "rtspUrlSmallTwo": {
+                    "type": "string",
+                    "example": "rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1\u0026subtype=0"
                 },
                 "startTime": {
                     "type": "string",

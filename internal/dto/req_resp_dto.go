@@ -64,3 +64,18 @@ type QueryPublicSingleVideoDTO struct {
 	StartTime string `json:"startTime"`
 	EndTime   string `json:"endTime"`
 }
+
+type BurnMixVideo4To1DTO struct {
+	RtspUrlMiddle     string `json:"rtspUrlMiddle" example:"rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0" binding:"required"`
+	RtspUrlSmallOne   string `json:"rtspUrlSmallOne" example:"rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0" binding:"required"`
+	RtspUrlSmallTwo   string `json:"rtspUrlSmallTwo" example:"rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0" binding:"required"`
+	RtspUrlSmallThree string `json:"rtspUrlSmallThree" example:"rtsp://admin:cebon61332433@192.168.99.215:554/cam/realmonitor?channel=1&subtype=0" binding:"required"`
+	Temperature       string `json:"temperature" example:""`
+	StartTime         string `json:"startTime" example:"2022-05-11 15:20:00" binding:"required" `
+	EndTime           string `json:"endTime" example:"2022-05-11 15:25:00" binding:"required"`
+	CallbackUrl       string `json:"callBackUrl" example:"http://localhost:8010/api/v1/callback"`
+	OdaSavePath       string `json:"odaSavePath" example:"D:/downloadVideo"`
+	TaskId            uint   `json:"taskId" example:"1"`
+	FileSavePath      string `json:"fileSavePath"`
+	VideoName         string `json:"videoName"`
+}
