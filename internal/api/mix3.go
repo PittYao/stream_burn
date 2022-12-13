@@ -38,7 +38,7 @@ func BurnMix3Video(c *gin.Context) {
 	mix3s := roommix3.QueryMix3File(mix3Req)
 	if len(mix3s) == 0 {
 		log.L.Error("没有查询到存在视频任务", zap.Any("data", mix3Req))
-		response.Err(c, "没有查询到存在视频任务")
+		response.Err(c, "该时间段没有查询到视频")
 		return
 	}
 	// 存储下载根任务

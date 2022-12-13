@@ -9,9 +9,9 @@ import (
 
 // Response 响应体
 type Response struct {
-	Code int         `json:"code"` // 响应码
-	Msg  string      `json:"msg"`  // 响应消息
-	Data interface{} `json:"data"` // 响应数据
+	Code int         `json:"code"`    // 响应码
+	Msg  string      `json:"message"` // 响应消息
+	Data interface{} `json:"data"`    // 响应数据
 }
 
 // OK 返回 HTTP 状态码为 200 的统一成功结构

@@ -37,7 +37,7 @@ func BurnParams(c *gin.Context) {
 	mix3s := roommix3.QueryMix3File(mix3Req)
 	if len(mix3s) == 0 {
 		log.L.Info("没有查询到存在视频任务", zap.Any("req", mix3Req))
-		response.Err(c, "没有查询到存在视频任务")
+		response.Err(c, "该时间段没有查询到视频")
 		return
 	}
 	// 下载视频命令构建
@@ -70,7 +70,7 @@ func Burn41Params(c *gin.Context) {
 	mix4s := roommix4.QueryMix4File(mix4Req)
 	if len(mix4s) == 0 {
 		log.L.Info("没有查询到存在视频任务", zap.Any("req", mix4Req))
-		response.Err(c, "没有查询到存在视频任务")
+		response.Err(c, "该时间段没有查询到视频")
 		return
 	}
 	// 下载视频命令构建
@@ -103,7 +103,7 @@ func BurnSingleParams(c *gin.Context) {
 	ones := roomrecordone.QuerySingleFile(singleReq)
 	if len(ones) == 0 {
 		log.L.Info("没有查询到存在视频任务", zap.Any("req", singleReq))
-		response.Err(c, "没有查询到存在视频任务")
+		response.Err(c, "该时间段没有查询到视频")
 		return
 	}
 	// 下载视频命令构建
@@ -136,7 +136,7 @@ func BurnPublicParams(c *gin.Context) {
 	ones := publicrecordone.QueryPublicOneFile(publicReq)
 	if len(ones) == 0 {
 		log.L.Info("没有查询到存在视频任务", zap.Any("req", publicReq))
-		response.Err(c, "没有查询到存在视频任务")
+		response.Err(c, "该时间段没有查询到视频")
 		return
 	}
 	// 下载视频命令构建

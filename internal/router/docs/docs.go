@@ -697,7 +697,7 @@ const docTemplate = `{
                 "data": {
                     "description": "响应数据"
                 },
-                "msg": {
+                "message": {
                     "description": "响应消息",
                     "type": "string"
                 }

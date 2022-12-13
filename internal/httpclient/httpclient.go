@@ -18,7 +18,7 @@ type CallbackDTO struct {
 }
 
 func CopyM3u8HttpClient(url string, id uint) (err error, response response.Response) {
-	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 3))
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 15))
 	err = globalWithOpt.
 		// POST请求
 		POST(url).
@@ -49,7 +49,7 @@ func CopyM3u8HttpClient(url string, id uint) (err error, response response.Respo
 }
 
 func CallBackHttpClient(url string, burnInfoUuId string) error {
-	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 3))
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 15))
 	err := globalWithOpt.
 		// POST请求
 		POST(url).
@@ -123,7 +123,7 @@ func CallBackFileHttpClient(url string, burnInfoUuId string, error error) error 
 }
 
 func CheckM3u8Available(url string) error {
-	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 2))
+	globalWithOpt := gout.NewWithOpt(gout.WithTimeout(time.Second * 5))
 	resp, err := globalWithOpt.
 		GET(url).
 		Debug(true).
