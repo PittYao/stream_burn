@@ -48,3 +48,9 @@ func TestPathJoin(t *testing.T) {
 
 	println(strings.LastIndex(filePath, "\\") == len(filePath)-1)
 }
+
+func TestDd(t *testing.T) {
+	x := 61
+	i := (750 * x) / 375
+	println(i)
+}

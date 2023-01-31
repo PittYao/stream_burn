@@ -104,16 +104,16 @@ func QueryPublicOneFile(burnSingleVideoDTO dto.BurnSingleVideoDTO) []*PublicReco
 	endTime := burnSingleVideoDTO.EndTime
 
 	// 查询已经结束的任务 和 异常结束的任务能否满足查询条件
-	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
+	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
 		rtspUrl, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&middle)
 
-	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
+	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
 		rtspUrl, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&include)
 
-	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time > ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
+	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time > ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
 		rtspUrl, startTime, endTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&left)
 
-	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time < ? and ffmpeg_save_close_time > ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
+	mysql.Instance.Where("rtsp_url = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time < ? and ffmpeg_save_close_time > ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
 		rtspUrl, startTime, endTime, startTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&right)
 
 	// 查询是否有正在进行的任务能满足查询条件

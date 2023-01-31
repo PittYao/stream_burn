@@ -2,7 +2,7 @@ mysql:
   dsn: root:root@tcp(110.100.2.19:3306)/stream_push_save?charset=utf8mb4&parseTime=True&loc=Local
 
 log:
-  format: console
+  format: json
 
 burn:
   tmpPath: D:/downloadVideo/fileTemp/

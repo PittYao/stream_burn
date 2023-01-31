@@ -106,26 +106,26 @@ func QueryMix3File(burnMixVideoDTO dto.BurnMix3VideoDTO) []*RoomMix3 {
 	rtspUrlMiddle := helper.EncodeRtspUrl(burnMixVideoDTO.RtspUrlMiddle)
 	rtspUrlLeft := helper.EncodeRtspUrl(burnMixVideoDTO.RtspUrlLeft)
 	rtspUrlRight := helper.EncodeRtspUrl(burnMixVideoDTO.RtspUrlRight)
-	temperature := burnMixVideoDTO.Temperature
+	//temperature := burnMixVideoDTO.Temperature
 	startTime := burnMixVideoDTO.StartTime
 	endTime := burnMixVideoDTO.EndTime
 
 	// 查询已经结束的任务 和 异常结束的任务能否满足查询条件
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
-		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&middle)
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ?  and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0 ",
+		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&middle)
 
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
-		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&include)
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_close_time < ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
+		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, startTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&include)
 
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ?  and ffmpeg_save_start_time > ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
-		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&left)
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and ffmpeg_save_start_time > ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time >= ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
+		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, startTime, endTime, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&left)
 
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time < ? and ffmpeg_save_close_time > ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0",
-		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, startTime, endTime, startTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&right)
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and ffmpeg_save_start_time <= ? and ffmpeg_save_close_time < ? and ffmpeg_save_close_time > ? and ffmpeg_save_state != ? and m3u8_url is not null AND LENGTH(trim(m3u8_url))>0 and ts_file != 0",
+		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, startTime, endTime, startTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&right)
 
 	// 查询是否有正在进行的任务能满足查询条件
-	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ? and temperature = ? and ffmpeg_save_start_time <= ?  and ffmpeg_save_state = ?",
-		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, temperature, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&mixIng)
+	mysql.Instance.Where("rtsp_url_middle = ? and rtsp_url_left = ? and rtsp_url_right = ?  and ffmpeg_save_start_time <= ?  and ffmpeg_save_state = ?",
+		rtspUrlMiddle, rtspUrlLeft, rtspUrlRight, endTime, consts.RunIng).Order("ffmpeg_save_start_time asc").Find(&mixIng)
 
 	mix3s = append(mix3s, middle...)
 	mix3s = append(mix3s, include...)
